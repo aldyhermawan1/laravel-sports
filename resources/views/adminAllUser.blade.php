@@ -99,119 +99,121 @@
                             </div>
                             <!-- / MODAL TAMBAH USER -->
 
-                            <table class='table table-condensed table-responsive'>
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th>Username</th>
-                                        <th>Nama</th>
-                                        <th>No. Telp</th>
-                                        <th>Email</th>
-                                        <th>Akses</th>
-                                        <th>Action</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @foreach($allUser as $u)
-                                    <tr>
-                                        <td>{{ $u->idUser }}</td>
-                                        <td>{{ $u->username }}</td>
-                                        <td>{{ $u->namaUser }}</td>
-                                        <td>{{ $u->telpUser }}</td>
-                                        <td>{{ $u->emailUser }}</td>
-                                        <td>{{ $u->aksesUser }}</td>
-                                        <td>
-                                            <button class='btn btn-success' data-toggle="modal" data-target="#ubahUser{{ $u->idUser }}"><i class='fas fa-edit'></i></button>
-                                            <div class="modal fade" id="ubahUser{{ $u->idUser }}">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header bg-success">
-                                                            <h4 class="modal-title">Ubah detail User</h4>
-                                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <form action="/allUser/update/{{ $u->idUser }}" method="post">
-                                                                @csrf
-                                                                <div class="input-group mb-3">
-                                                                    <input type="text" class="form-control" value="{{ $u->namaUser }}" required name="nama">
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                            <span class="fas fa-user"></span>
+                            <div class="table-responsive">
+                                <table class='table table-condensed'>
+                                    <thead>
+                                        <tr>
+                                            <th>ID</th>
+                                            <th>Username</th>
+                                            <th>Nama</th>
+                                            <th>No. Telp</th>
+                                            <th>Email</th>
+                                            <th>Akses</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($allUser as $u)
+                                        <tr>
+                                            <td>{{ $u->idUser }}</td>
+                                            <td>{{ $u->username }}</td>
+                                            <td>{{ $u->namaUser }}</td>
+                                            <td>{{ $u->telpUser }}</td>
+                                            <td>{{ $u->emailUser }}</td>
+                                            <td>{{ $u->aksesUser }}</td>
+                                            <td>
+                                                <button class='btn btn-success' data-toggle="modal" data-target="#ubahUser{{ $u->idUser }}"><i class='fas fa-edit'></i></button>
+                                                <div class="modal fade" id="ubahUser{{ $u->idUser }}">
+                                                    <div class="modal-dialog">
+                                                        <div class="modal-content">
+                                                            <div class="modal-header bg-success">
+                                                                <h4 class="modal-title">Ubah detail User</h4>
+                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                            </div>
+                                                            <div class="modal-body">
+                                                                <form action="/allUser/update/{{ $u->idUser }}" method="post">
+                                                                    @csrf
+                                                                    <div class="input-group mb-3">
+                                                                        <input type="text" class="form-control" value="{{ $u->namaUser }}" required name="nama">
+                                                                        <div class="input-group-append">
+                                                                            <div class="input-group-text">
+                                                                                <span class="fas fa-user"></span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="input-group mb-3">
-                                                                    <input type="text" class="form-control" value="{{ $u->telpUser }}" required name="telp">
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                            <span class="fas fa-phone"></span>
+                                                                    <div class="input-group mb-3">
+                                                                        <input type="text" class="form-control" value="{{ $u->telpUser }}" required name="telp">
+                                                                        <div class="input-group-append">
+                                                                            <div class="input-group-text">
+                                                                                <span class="fas fa-phone"></span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="input-group mb-3">
-                                                                    <input type="text" class="form-control" value="{{ $u->emailUser }}" required name="email">
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                            <span class="fas fa-envelope"></span>
+                                                                    <div class="input-group mb-3">
+                                                                        <input type="text" class="form-control" value="{{ $u->emailUser }}" required name="email">
+                                                                        <div class="input-group-append">
+                                                                            <div class="input-group-text">
+                                                                                <span class="fas fa-envelope"></span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="input-group mb-3">
-                                                                    <input type="text" class="form-control" value="{{ $u->username }}" required name="username">
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                            <span class="fas fa-user-lock"></span>
+                                                                    <div class="input-group mb-3">
+                                                                        <input type="text" class="form-control" value="{{ $u->username }}" required name="username">
+                                                                        <div class="input-group-append">
+                                                                            <div class="input-group-text">
+                                                                                <span class="fas fa-user-lock"></span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="input-group mb-3">
-                                                                    <input type="password" class="form-control" placeholder="Password" required name="password">
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                            <span class="fas fa-hashtag"></span>
+                                                                    <div class="input-group mb-3">
+                                                                        <input type="password" class="form-control" placeholder="Password" required name="password">
+                                                                        <div class="input-group-append">
+                                                                            <div class="input-group-text">
+                                                                                <span class="fas fa-hashtag"></span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="input-group mb-3">
-                                                                    <input type="password" class="form-control" placeholder="Confirm Password" required name="Cpassword">
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                            <span class="fas fa-hashtag"></span>
+                                                                    <div class="input-group mb-3">
+                                                                        <input type="password" class="form-control" placeholder="Confirm Password" required name="Cpassword">
+                                                                        <div class="input-group-append">
+                                                                            <div class="input-group-text">
+                                                                                <span class="fas fa-hashtag"></span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="input-group mb-3">
-                                                                    <select class="form-control custom-select" required name="akses">
-                                                                        <option value="member">Member</option>
-                                                                        <option value="owner">Owner</option>
-                                                                        <option value="admin">Admin</option>
-                                                                    </select>
-                                                                    <div class="input-group-append">
-                                                                        <div class="input-group-text">
-                                                                        <span class="fas fa-question-circle"></span>
+                                                                    <div class="input-group mb-3">
+                                                                        <select class="form-control custom-select" required name="akses">
+                                                                            <option value="member">Member</option>
+                                                                            <option value="owner">Owner</option>
+                                                                            <option value="admin">Admin</option>
+                                                                        </select>
+                                                                        <div class="input-group-append">
+                                                                            <div class="input-group-text">
+                                                                            <span class="fas fa-question-circle"></span>
+                                                                            </div>
                                                                         </div>
                                                                     </div>
-                                                                </div>
-                                                                <div class="row">
-                                                                    <div class="col-12">
-                                                                        <button type="submit" class="btn btn-success btn-block btn-flat">Simpan</button>
+                                                                    <div class="row">
+                                                                        <div class="col-12">
+                                                                            <button type="submit" class="btn btn-success btn-block btn-flat">Simpan</button>
+                                                                        </div>
                                                                     </div>
-                                                                </div>
-                                                            </form>
+                                                                </form>
+                                                            </div>
                                                         </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                            @unless ($u->aksesUser == 'admin')
-                                                <a href="/allUser/delete/{{ $u->idUser }}" class='btn btn-danger'>
-                                                    <i class='fas fa-trash'></i>
-                                                </a>
-                                            @endunless
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                </tbody>
-                            </table>
+                                                @unless ($u->aksesUser == 'admin')
+                                                    <a href="/allUser/delete/{{ $u->idUser }}" class='btn btn-danger'>
+                                                        <i class='fas fa-trash'></i>
+                                                    </a>
+                                                @endunless
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

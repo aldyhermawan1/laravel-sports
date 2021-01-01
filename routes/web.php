@@ -18,7 +18,7 @@ Route::get('/welcome', function () {
     return view('welcome');
 });
 Route::get('/tes',function(){
-    dd(bcrypt('member'));
+    dd(bcrypt('owner'));
 });
 Route::get('/login', 'LoginController@login');
 Route::post('/login', 'LoginController@doLogin')->name('login');
@@ -35,3 +35,11 @@ Route::get('/allUser', 'UserController@allUser')->middleware('auth');
 Route::post('/allUser/insert', 'UserController@doInsertUser');
 Route::post('/allUser/update/{id}', 'UserController@doUpdateAllUser');
 Route::get('/allUser/delete/{id}', 'UserController@doDeleteUser');
+
+Route::get('/venue', 'VenueController@venue')->middleware('auth');
+Route::post('/venue/insert', 'VenueController@doInsertVenue');
+Route::get('/venue/delete/{id}', 'VenueController@doDeleteVenue');
+Route::get('/venue/lapangan/{id}', 'VenueController@lapangan')->name('insert');
+Route::post('/venue/lapangan/{id}/insert', 'VenueController@doInsertLapangan');
+Route::post('/venue/lapangan/{idv}/update/{idl}', 'VenueController@doUpdateLapangan');
+Route::get('/venue/lapangan/{idv}/delete/{idl}', 'VenueController@doDeleteLapangan');

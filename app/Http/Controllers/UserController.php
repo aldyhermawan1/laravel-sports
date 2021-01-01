@@ -16,7 +16,7 @@ class UserController extends Controller
     public function allUser(){
         $user = Auth::user();
         $allUser = DB::table('user')->get();
-        return view('adminAllUser',['allUser'=>$allUser], ['user'=>$user]);
+        return view('adminAllUser',['allUser'=>$allUser, 'user'=>$user]);
     }
 
     public function doInsertUser(Request $request){
@@ -28,7 +28,7 @@ class UserController extends Controller
             'emailUser'=> $request->email,
             'aksesUser'=> $request->akses
         ]);
-        return redirect('/allUser')->with('success','Data sudah terdaftar!');
+        return redirect('/allUser')->with('success','Data terdaftar!');
     }
 
     public function doUpdateAllUser($idUser, Request $request){

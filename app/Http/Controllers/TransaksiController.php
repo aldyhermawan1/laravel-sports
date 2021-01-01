@@ -46,11 +46,18 @@ class TransaksiController extends Controller
         ]);
         return redirect()->route('transaksiDetail', [$idVenue])->with('success','Transaksi Lunas!');
     }
-    public function doBukti($idTransaksi, Request $request){
-        $file = time().".".$request->file('gambar')->getExtension();
-        $request->file('gambar')->move(public_path('images/transaksi'), $file);
+    public function doBatal($idVenue, $idTransaksi){
         DB::table('transaksi')->where('idTransaksi',$idTransaksi)->update([
-            'buktiTransaksi' => $file
+            'lunasTransaksi' => 'batal'
+        ]);
+        return redirect()->route('transaksiDetail', [$idVenue])->with('success','Transaksi dibatalkan!');
+    }
+    public function doBukti($idTransaksi, Request $request){
+        $file = time().".".$request->file('bukti')->getClientOriginalExtension();
+        $request->file('bukti')->move(public_path('images/transaksi'), $file);
+        DB::table('transaksi')->where('idTransaksi',$idTransaksi)->update([
+            'buktiTransaksi' => $file,
+            'lunasTransaksi' => 'proses'
         ]);
         return redirect('/transaksi')->with('success','Bukti pembayaran telah di upload!');
     }

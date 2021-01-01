@@ -28,12 +28,13 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-body">
+                            @include('flash-message')
                             <div class="table-responsive">
                                 <table class='table table-condensed'>
                                     <thead>
                                         <tr>
                                             <th>No.</th>
-                                            <th>ID Transaksi</th>
+                                            <th>ID</th>
                                             <th>Lapangan</th>
                                             @if ($user['aksesUser']=='member')
                                                 <th>Venue</th>
@@ -59,58 +60,61 @@
                                                 <td>{{ $t->totalTransaksi }}</td>
                                                 <td>{{ $t->lunasTransaksi }}</td>
                                                 <td>
-                                                    @if (!$t->buktiTransaksi)
-                                                        @if ($user['aksesUser']!='member' && $t->lunasTransaksi!='lunas')
-                                                            <a href="/transaksi{{ $t->idVenue }}}/lunas{{ $t->idTransaksi }}}" class='btn btn-primary'>Lunas</a>
+                                                    @if ($t->lunasTransaksi!='batal')
+                                                        @if (!$t->buktiTransaksi)
+                                                            @if ($user['aksesUser']!='member' && $t->lunasTransaksi!='lunas')
+                                                                <a href="/transaksi/{{ $t->idVenue }}/lunas/{{ $t->idTransaksi }}" class='btn btn-primary'>Lunas</a>
+                                                            @else
+                                                                <button class='btn btn-primary' data-toggle="modal" data-target="#uploadBukti{{ $t->idTransaksi }}"><i class='fas fa-file-upload'></i></button>
+                                                                <div class="modal fade" id="uploadBukti{{ $t->idTransaksi }}">
+                                                                    <div class="modal-dialog">
+                                                                        <div class="modal-content">
+                                                                            <div class="modal-header bg-primary">
+                                                                                <h4 class="modal-title">Upload Bukti Pembayaran</h4>
+                                                                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                                                            </div>
+                                                                            <div class="modal-body">
+                                                                                <form action="/transaksi/bukti/{{ $t->idTransaksi }}" method="post" enctype="multipart/form-data">
+                                                                                    @csrf
+                                                                                    <div class="input-group mb-3">
+                                                                                        <input type="file" class="form-control" name="bukti" accept="image/*">
+                                                                                        <div class="input-group-append">
+                                                                                            <div class="input-group-text">
+                                                                                                <span class="fas fa-image"></span>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                    <div class="row">
+                                                                                        <div class="col-12">
+                                                                                            <button type="submit" class="btn btn-success btn-block btn-flat">Simpan</button>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </form>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
                                                         @else
-                                                            <button class='btn btn-success' data-toggle="modal" data-target="#uploadBukti{{ $t->idTransaksi }}"><i class='fas fa-file-upload'></i></button>
-                                                            <div class="modal fade" id="uploadBukti{{ $t->idTransaksi }}">
+                                                            <button class='btn btn-success' data-toggle="modal" data-target="#gambar{{ $t->idTransaksi }}"><i class='fas fa-image'></i></button>
+                                                            <div class="modal fade" id="gambar{{ $t->idTransaksi }}">
                                                                 <div class="modal-dialog">
                                                                     <div class="modal-content">
                                                                         <div class="modal-header bg-success">
-                                                                            <h4 class="modal-title">Upload Bukti Pembayaran</h4>
+                                                                            <h4 class="modal-title">Bukti Pembayaran</h4>
                                                                             <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                         </div>
                                                                         <div class="modal-body">
-                                                                            <form action="/transaksi/bukti/{{ $t->idTransaksi }}" method="post">
-                                                                                @csrf
-                                                                                <div class="input-group mb-3">
-                                                                                    <input type="file" class="form-control" name="bukti" accept="image/*">
-                                                                                    <div class="input-group-append">
-                                                                                        <div class="input-group-text">
-                                                                                            <span class="fas fa-image"></span>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                </div>
-                                                                                <div class="row">
-                                                                                    <div class="col-12">
-                                                                                        <button type="submit" class="btn btn-success btn-block btn-flat">Simpan</button>
-                                                                                    </div>
-                                                                                </div>
-                                                                            </form>
+                                                                            <img src="{{ asset('images/transaksi/'.$t->buktiTransaksi) }}" alt="Bukti Pembayaran" class="img-fluid">
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
+                                                            @if ($user['aksesUser']!='member' && $t->lunasTransaksi!='lunas')
+                                                                <a href="/transaksi/{{ $t->idVenue }}/lunas/{{ $t->idTransaksi }}" class='btn btn-primary'>Lunas</a>
+                                                            @endif
                                                         @endif
-                                                    @else
-                                                        <button class='btn btn-success' data-toggle="modal" data-target="#gambar{{ $t->idTransaksi }}"><i class='fas fa-image'></i></button>
-                                                        <div class="modal fade" id="gambar{{ $t->idTransaksi }}">
-                                                            <div class="modal-dialog">
-                                                                <div class="modal-content">
-                                                                    <div class="modal-header bg-success">
-                                                                        <h4 class="modal-title">Bukti Pembayaran</h4>
-                                                                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                                                    </div>
-                                                                    <div class="modal-body">
-                                                                        <img src="{{ asset('images/transaksi/'.$t->buktiTransaksi) }}" alt="Bukti Pembayaran">
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        @if ($user['aksesUser']!='member' && $t->lunasTransaksi!='lunas')
-                                                            <a href="/transaksi{{ $t->idVenue }}}/lunas{{ $t->idTransaksi }}}" class='btn btn-primary'>Lunas</a>
-                                                        @endif
+                                                        <a href="/transaksi/{{ $t->idVenue }}/batal/{{ $t->idTransaksi }}" class='btn btn-danger'><i class='fas fa-trash'></i></a>
                                                     @endif
                                                 </td>
                                             </tr>

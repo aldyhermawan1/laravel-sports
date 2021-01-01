@@ -124,7 +124,8 @@
                                                 Jam Buka: {{ $v->bukaVenue }}<br>
                                                 Jam Tutup: {{ $v->tutupVenue }}
                                             </p>
-                                            <a href="/venue/{{ $v->idVenue }}" class="btn btn-success">Detail Venue</a>
+                                            <a href="/venue/{{ $v->idVenue }}" class="btn btn-success">Detail</a>
+                                            <a href="/venue/jadwal/{{ $v->idVenue }}" class="btn btn-primary">Jadwal</a>
                                             @if ($user['aksesUser']=='owner')
                                                 <a href="/venue/delete/{{ $v->idVenue }}" class="btn btn-danger">Hapus</a>
                                             @endif

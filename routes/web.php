@@ -43,6 +43,7 @@ Route::get('/venue/{idv}', 'VenueController@lapangan')->middleware('auth')->name
 Route::post('/venue/{idv}/insert', 'VenueController@doInsertLapangan');
 Route::post('/venue/{idv}/update/{idl}', 'VenueController@doUpdateLapangan');
 Route::get('/venue/{idv}/delete/{idl}', 'VenueController@doDeleteLapangan');
+Route::get('/venue/jadwal/{idv}', 'VenueController@jadwal')->middleware('auth');
 
 Route::get('/transaksi', 'TransaksiController@transaksi')->middleware('auth');
 Route::get('/transaksi/{idv}', 'TransaksiController@transaksiDetail')->middleware('auth')->name('transaksiDetail');

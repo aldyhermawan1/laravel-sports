@@ -1,5 +1,11 @@
 @include('header')
-@include('memberSidebar')
+@if ($user['aksesUser']=='admin')
+    @include('adminSidebar')
+@elseif ($user['aksesUser']=='owner')
+    @include('ownerSidebar')
+@else
+    @include('memberSidebar')
+@endif
 
 <!-- Content Wrapper. Contains page content -->
 <div class="content-wrapper">
@@ -8,7 +14,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0 text-dark">Pemesanan</h1>
+                    @if ($user['aksesUser']!='member')
+                        <h1 class="m-0 text-dark">Jadwal</h1>
+                    @else
+                        <h1 class="m-0 text-dark">Pemesanan</h1>
+                    @endif
                 </div><!-- /.col -->
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -24,7 +34,9 @@
                         <div class="card-body">
                             @include('flash-message')
                             <!-- MODAL TAMBAH PESANAN-->
-                            <button class='btn btn-primary' data-toggle="modal" data-target="#tambahPesanan">Pesan</button>
+                            @if ($user['aksesUser']=='member')
+                                <button class='btn btn-primary' data-toggle="modal" data-target="#tambahPesanan">Pesan</button>
+                            @endif
                             <div class="modal fade" id="tambahPesanan">
                                 <div class="modal-dialog">
                                     <div class="modal-content">

@@ -65,4 +65,19 @@ class VenueController extends Controller
         DB::table('lapangan')->where('idLapangan',$idLapangan)->delete();
         return redirect()->route('lapangan', [$idVenue])->with('success','Data telah dihapus!');
     }
+
+    public function jadwal($idVenue){
+        $user = Auth::user();
+        $lapangan = DB::table('lapangan')->where('idVenue','=',$idVenue)->get('namaLapangan');
+        $jadwal = DB::table('jadwal')
+            ->join('transaksi', 'transaksi.idTransaksi', '=', 'jadwal.idTransaksi')
+            ->join('lapangan', 'lapangan.idLapangan', '=', 'jadwal.idLapangan')
+            ->join('venue', 'venue.idVenue', '=', 'lapangan.idVenue')
+            ->where('transaksi.lunasTransaksi', '=', 'lunas')
+            ->where('jadwal.mulaiJadwal', '>', 'NOW()')
+            ->where('venue.idVenue', '=', $idVenue)
+            ->orderBy('jadwal.mulaiJadwal', 'asc')
+            ->get();
+        return view('jadwal',['jadwal'=>$jadwal, 'user'=>$user, 'idVenue'=>$idVenue, 'lapangan'=>$lapangan]);
+    }
 }

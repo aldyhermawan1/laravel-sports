@@ -20,7 +20,7 @@ class VenueController extends Controller
     public function doInsertVenue(Request $request){
         $user = Auth::user();
         $file = $request->file('gambar')->getClientOriginalName();
-        $request->file('gambar')->move(public_path('images'), $file);
+        $request->file('gambar')->move(public_path('images/venue'), $file);
 
         DB::table('venue')->insert([
             'namaVenue' => $request->nama,
@@ -51,7 +51,7 @@ class VenueController extends Controller
             'hargaLapangan' => $request->harga,
             'idVenue'=> $idVenue
         ]);
-        return redirect()->route('insert', [$idVenue])->with('success','Data terdaftar!');
+        return redirect()->route('lapangan', [$idVenue])->with('success','Data terdaftar!');
     }
     public function doUpdateLapangan($idVenue, $idLapangan, Request $request){
         DB::table('lapangan')->where('idLapangan',$idLapangan)->update([
@@ -59,10 +59,10 @@ class VenueController extends Controller
             'jenisLapangan' => $request->jenis,
             'hargaLapangan' => $request->harga,
         ]);
-        return redirect()->route('insert', [$idVenue])->with('success','Data telah diubah!');
+        return redirect()->route('lapangan', [$idVenue])->with('success','Data telah diubah!');
     }
     public function doDeleteLapangan($idVenue, $idLapangan){
         DB::table('lapangan')->where('idLapangan',$idLapangan)->delete();
-        return redirect()->route('insert', [$idVenue])->with('success','Data telah dihapus!');
+        return redirect()->route('lapangan', [$idVenue])->with('success','Data telah dihapus!');
     }
 }

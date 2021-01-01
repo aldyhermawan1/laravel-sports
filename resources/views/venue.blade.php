@@ -113,7 +113,7 @@
                             <div class="row">
                                 @foreach($venue as $v)
                                     <div class="card col-md-3" >
-                                        <img class="card-img-top" src="{{ asset('images/'.$v->gambarVenue) }}" alt="Card image">
+                                        <img class="card-img-top" src="{{ asset('images/venue/'.$v->gambarVenue) }}" alt="Card image">
                                         <div class="card-body">
                                             <h4 class="card-title mb-2">{{ $v->namaVenue }}</h4>
                                             <p class="card-text">
@@ -124,7 +124,7 @@
                                                 Jam Buka: {{ $v->bukaVenue }}<br>
                                                 Jam Tutup: {{ $v->tutupVenue }}
                                             </p>
-                                            <a href="/venue/lapangan/{{ $v->idVenue }}" class="btn btn-success">Detail</a>
+                                            <a href="/venue/{{ $v->idVenue }}" class="btn btn-success">Detail Venue</a>
                                             @if ($user['aksesUser']=='owner')
                                                 <a href="/venue/delete/{{ $v->idVenue }}" class="btn btn-danger">Hapus</a>
                                             @endif

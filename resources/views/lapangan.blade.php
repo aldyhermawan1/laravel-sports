@@ -39,7 +39,7 @@
                                                 <button type="button" class="close" data-dismiss="modal">&times;</button>
                                             </div>
                                             <div class="modal-body">
-                                                <form action="/venue/lapangan/{{ $idVenue }}/insert" method="post">
+                                                <form action="/venue/{{ $idVenue }}/insert" method="post">
                                                     @csrf
                                                     <div class="input-group mb-3">
                                                         <input type="text" class="form-control" placeholder="Nama Lapangan" name="nama">
@@ -82,7 +82,7 @@
                                 <table class='table table-condensed'>
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>No.</th>
                                             <th>Venue</th>
                                             <th>Lapangan</th>
                                             <th>Jenis Lapangan</th>
@@ -93,7 +93,7 @@
                                     <tbody>
                                         @foreach ($lapangan as $l)
                                             <tr>
-                                                <td>{{ $l->idLapangan }}</td>
+                                                <td>{{ $loop->iteration }}</td>
                                                 <td>{{ $l->namaVenue }}</td>
                                                 <td>{{ $l->namaLapangan }}</td>
                                                 <td>{{ $l->jenisLapangan }}</td>
@@ -108,7 +108,7 @@
                                                                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                                                                 </div>
                                                                 <div class="modal-body">
-                                                                    <form action="/venue/lapangan/{{ $idVenue }}/update/{{ $l->idLapangan }}" method="post">
+                                                                    <form action="/venue/{{ $idVenue }}/update/{{ $l->idLapangan }}" method="post">
                                                                         @csrf
                                                                         <div class="input-group mb-3">
                                                                             <input type="text" class="form-control" value="{{ $l->namaLapangan }}" name="nama">
@@ -145,7 +145,7 @@
                                                         </div>
                                                     </div>
                                                     @if ($user['aksesUser']=='owner')
-                                                        <a href="/venue/lapangan/{{ $idVenue }}/delete/{{ $l->idLapangan }}" class='btn btn-danger'><i class='fas fa-trash'></i></a>
+                                                        <a href="/venue/{{ $idVenue }}/delete/{{ $l->idLapangan }}" class='btn btn-danger'><i class='fas fa-trash'></i></a>
                                                     @endif
                                                 </td>
                                             </tr>

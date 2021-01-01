@@ -39,7 +39,13 @@ Route::get('/allUser/delete/{id}', 'UserController@doDeleteUser');
 Route::get('/venue', 'VenueController@venue')->middleware('auth');
 Route::post('/venue/insert', 'VenueController@doInsertVenue');
 Route::get('/venue/delete/{id}', 'VenueController@doDeleteVenue');
-Route::get('/venue/lapangan/{id}', 'VenueController@lapangan')->name('insert');
-Route::post('/venue/lapangan/{id}/insert', 'VenueController@doInsertLapangan');
-Route::post('/venue/lapangan/{idv}/update/{idl}', 'VenueController@doUpdateLapangan');
-Route::get('/venue/lapangan/{idv}/delete/{idl}', 'VenueController@doDeleteLapangan');
+Route::get('/venue/{id}', 'VenueController@lapangan')->middleware('auth')->name('lapangan');
+Route::post('/venue/{id}/insert', 'VenueController@doInsertLapangan');
+Route::post('/venue/{idv}/update/{idl}', 'VenueController@doUpdateLapangan');
+Route::get('/venue/{idv}/delete/{idl}', 'VenueController@doDeleteLapangan');
+
+Route::get('/transaksi', 'TransaksiController@transaksi')->middleware('auth');
+Route::get('/transaksi/{id}', 'TransaksiController@transaksiDetail')->middleware('auth')->name('transaksiDetail');
+Route::post('/transaksi/{idv}/lunas/{idt}', 'TransaksiController@doLunas');
+Route::post('/transaksi/bukti/{id}', 'TransaksiController@doBukti');
+

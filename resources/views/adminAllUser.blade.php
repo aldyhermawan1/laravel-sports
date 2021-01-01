@@ -103,7 +103,7 @@
                                 <table class='table table-condensed'>
                                     <thead>
                                         <tr>
-                                            <th>ID</th>
+                                            <th>No.</th>
                                             <th>Username</th>
                                             <th>Nama</th>
                                             <th>No. Telp</th>
@@ -115,7 +115,7 @@
                                     <tbody>
                                         @foreach($allUser as $u)
                                         <tr>
-                                            <td>{{ $u->idUser }}</td>
+                                            <td>{{ $loop->iteration }}</td>
                                             <td>{{ $u->username }}</td>
                                             <td>{{ $u->namaUser }}</td>
                                             <td>{{ $u->telpUser }}</td>

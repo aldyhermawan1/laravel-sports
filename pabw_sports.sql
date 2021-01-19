@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Jan 01, 2021 at 11:47 AM
+-- Generation Time: Jan 19, 2021 at 09:15 AM
 -- Server version: 10.4.11-MariaDB
 -- PHP Version: 7.4.6
 
@@ -68,10 +68,8 @@ CREATE TABLE `jadwal` (
 --
 
 INSERT INTO `jadwal` (`idJadwal`, `mulaiJadwal`, `selesaiJadwal`, `idLapangan`, `idTransaksi`) VALUES
-(3, '2021-01-02 15:30:00', '2021-01-02 17:30:00', 17, 3),
-(4, '2021-01-02 13:00:00', '2021-01-02 15:00:00', 17, 5),
-(5, '2020-12-31 18:40:00', '2020-12-31 19:40:00', 17, 6),
-(6, '2021-01-02 16:00:00', '2021-01-02 17:00:00', 17, 7);
+(10, '2021-01-20 15:00:00', '2021-01-20 17:00:00', 17, 11),
+(11, '2021-01-20 15:00:00', '2021-01-20 16:00:00', 8, 12);
 
 -- --------------------------------------------------------
 
@@ -160,6 +158,7 @@ CREATE TABLE `transaksi` (
   `idMember` int(11) NOT NULL,
   `totalTransaksi` int(11) NOT NULL,
   `buktiTransaksi` text DEFAULT NULL,
+  `tanggalTransaksi` datetime NOT NULL,
   `lunasTransaksi` varchar(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -173,12 +172,9 @@ CREATE TABLE `transaksi` (
 -- Dumping data for table `transaksi`
 --
 
-INSERT INTO `transaksi` (`idTransaksi`, `idMember`, `totalTransaksi`, `buktiTransaksi`, `lunasTransaksi`) VALUES
-(3, 3, 10000000, '1609497172.jpg', 'lunas'),
-(4, 3, 10000000, NULL, 'belum'),
-(5, 3, 10000000, '1609497551.jpg', 'lunas'),
-(6, 3, 5000000, '1609497661.jpg', 'lunas'),
-(7, 3, 5000000, '1609497705.png', 'batal');
+INSERT INTO `transaksi` (`idTransaksi`, `idMember`, `totalTransaksi`, `buktiTransaksi`, `tanggalTransaksi`, `lunasTransaksi`) VALUES
+(11, 9, 10000000, NULL, '2021-01-19 16:11:44', 'belum'),
+(12, 3, 150000, NULL, '2021-01-19 16:12:55', 'belum');
 
 -- --------------------------------------------------------
 
@@ -210,7 +206,9 @@ INSERT INTO `user` (`idUser`, `username`, `password`, `namaUser`, `telpUser`, `e
 (3, 'member', '$2y$10$KIe4.GOyvUw3NX80hYF2ue7LaacqkcITZY4ShOd2X7GeqfczR5di.', 'nama member', '0815', 'email.member@gmail.com', 'member'),
 (4, 'admin2', '$2y$10$2ak52P1fX.5yUkX3PSx1zO0XIcoU81zETej6R2uJkF/hhz8RYhH0O', 'nama admin2', '0852', 'email.admin2@gmail.com', 'admin'),
 (5, 'owner2', '$2y$10$QQuZoN6pcAlKEGcKMspr5uXqUYSn.OF1m0Sj34PgRZUEiJNFMIAS2', 'nama owner2', '0852', 'email.owner2@gmail.com', 'owner'),
-(7, 'aldy', '$2y$10$q3omEIpWHqEupFXeI0jL7eFtJWz78hPovNScgxz18XmBAjnVsTEvy', 'Muhammad Reinaldy Hermawan', '081549019726', 'aldyjonkunimen@gmail.com', 'admin');
+(7, 'aldy', '$2y$10$q3omEIpWHqEupFXeI0jL7eFtJWz78hPovNScgxz18XmBAjnVsTEvy', 'Muhammad Reinaldy Hermawan', '081549019726', 'aldyjonkunimen@gmail.com', 'admin'),
+(8, 'wayu', '$2y$10$MLl67Spk1WsS4gUjo2UJCONDtvBsGLcrVQ7lQuTC0bhgk7KEFyXSq', 'wayu', '086969', 'wayuganteng@gmail.com', 'member'),
+(9, 'ucup', '$2y$10$lq06acsbp1suon.u4S2.8OY9BMv/feRS2SRgP7Vck98DTsu3oq9ci', 'ucup', '08515151', 'ucup@gmail.com', 'member');
 
 -- --------------------------------------------------------
 
@@ -347,7 +345,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT for table `jadwal`
 --
 ALTER TABLE `jadwal`
-  MODIFY `idJadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `idJadwal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
 
 --
 -- AUTO_INCREMENT for table `lapangan`
@@ -365,13 +363,13 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT for table `transaksi`
 --
 ALTER TABLE `transaksi`
-  MODIFY `idTransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idTransaksi` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT for table `user`
 --
 ALTER TABLE `user`
-  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `idUser` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT for table `users`
@@ -413,6 +411,16 @@ ALTER TABLE `transaksi`
 --
 ALTER TABLE `venue`
   ADD CONSTRAINT `venue_ibfk_1` FOREIGN KEY (`idPemilik`) REFERENCES `user` (`idUser`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+DELIMITER $$
+--
+-- Events
+--
+CREATE DEFINER=`root`@`localhost` EVENT `pembatalan` ON SCHEDULE EVERY 1 HOUR STARTS '2021-01-19 16:10:40' ON COMPLETION NOT PRESERVE ENABLE DO update transaksi
+set transaksi.lunasTransaksi = 'batal'
+where transaksi.tanggalTransaksi < date_sub(now(),interval 24 hour) and (transaksi.lunasTransaksi = 'belum')$$
+
+DELIMITER ;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

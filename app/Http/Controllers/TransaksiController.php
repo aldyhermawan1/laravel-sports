@@ -16,6 +16,7 @@ class TransaksiController extends Controller
                 ->join('lapangan','jadwal.idLapangan','=','lapangan.idLapangan')
                 ->join('venue','lapangan.idVenue','=','venue.idVenue')
                 ->join('user','transaksi.idMember','=','user.idUser')
+                ->where('transaksi.idMember','=',$user['idUser'])
                 ->orderBy('transaksi.idTransaksi','asc')
                 ->get();
             return view('transaksiDetail',['transaksi'=>$transaksi, 'user'=>$user]);

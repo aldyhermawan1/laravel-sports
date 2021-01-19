@@ -17,13 +17,14 @@ class PesanController extends Controller
     }
     public function jadwal($idVenue){
         $user = Auth::user();
+        $sekarang = DB::raw('NOW()');
         $lapangan = DB::table('lapangan')->where('idVenue','=',$idVenue)->get('namaLapangan');
         $jadwal = DB::table('jadwal')
             ->join('transaksi', 'transaksi.idTransaksi', '=', 'jadwal.idTransaksi')
             ->join('lapangan', 'lapangan.idLapangan', '=', 'jadwal.idLapangan')
             ->join('venue', 'venue.idVenue', '=', 'lapangan.idVenue')
             ->where('transaksi.lunasTransaksi', '=', 'lunas')
-            ->where('jadwal.mulaiJadwal', '>', 'NOW()')
+            ->where('jadwal.mulaiJadwal', '>', $sekarang)
             ->where('venue.idVenue', '=', $idVenue)
             ->orderBy('jadwal.mulaiJadwal', 'asc')
             ->get();
@@ -33,6 +34,7 @@ class PesanController extends Controller
         $user = Auth::user();
         #INSERT TRANSAKSI
         $lapangan = DB::table('lapangan')->where('idVenue','=',$idVenue)->where('namaLapangan','=',$request->lapangan)->get();
+        $sekarang = DB::raw('NOW()');
         $rawmulai = Carbon::parse($request->mulai);
         $mulai = $rawmulai->format('Y-m-d H:i:s');
         $selesai = $rawmulai->addHours($request->durasi)->format('Y-m-d H:i:s');
@@ -40,6 +42,7 @@ class PesanController extends Controller
         DB::table('transaksi')->insert([
             'idMember' => $user['idUser'],
             'totalTransaksi' => $total,
+            'tanggalTransaksi' => $sekarang,
             'lunasTransaksi' => 'belum'
             ]);
         #INSERT JADWAL
@@ -59,6 +62,6 @@ class PesanController extends Controller
                 'lunasTransaksi' => 'proses'
             ]);
         }
-        return redirect('/transaksi')->with('success','Pesanan telah diajukan!, silahkan selesaikan pembayaran.');
+        return redirect('/transaksi')->with('success','Pesanan telah diajukan!, silahkan selesaikan pembayaran dalam waktu kurang dari 24 jam.');
     }
 }

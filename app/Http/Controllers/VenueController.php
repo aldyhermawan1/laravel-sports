@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -74,10 +75,18 @@ class VenueController extends Controller
             ->join('lapangan', 'lapangan.idLapangan', '=', 'jadwal.idLapangan')
             ->join('venue', 'venue.idVenue', '=', 'lapangan.idVenue')
             ->where('transaksi.lunasTransaksi', '=', 'lunas')
-            ->where('jadwal.mulaiJadwal', '>', 'NOW()')
             ->where('venue.idVenue', '=', $idVenue)
             ->orderBy('jadwal.mulaiJadwal', 'asc')
             ->get();
+        /*
+        $jadwal = DB::select("select * from jadwal,transaksi,venue,lapangan where
+        transaksi.idTransaksi = jadwal.idTransaksi and
+        lapangan.idLapangan = jadwal.idLapangan and
+        venue.idVenue = lapangan.idVenue and
+        jadwal.mulaiJadwal > ".$sekarang." and
+        transaksi.lunasTransaksi = 'lunas' and
+        venue.idVenue = ?", $idVenue);
+        */
         return view('jadwal',['jadwal'=>$jadwal, 'user'=>$user, 'idVenue'=>$idVenue, 'lapangan'=>$lapangan]);
     }
 }

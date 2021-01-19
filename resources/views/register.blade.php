@@ -76,7 +76,7 @@
       </form>
       <a href="/login" class="text-center">Sudah punya akun</a>
     </div>
-    <!-- /.form-box -->
+    <!--- /.form-box --->
   </div><!-- /.card -->
 </div>
 <!-- /.register-box -->

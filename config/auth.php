@@ -72,7 +72,7 @@ return [
         ],
         'user' => [
             'driver' => 'eloquent',
-            'model' => App\CustomUser::class,
+            'model' => App\Models\User::class,
         ],
 
         // 'users' => [
